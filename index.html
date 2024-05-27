@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image zoom hover</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100%;
+            height: 100vh;
+            background-color: rgb(26, 24, 24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container{
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .wrap{
+            
+            overflow: hidden;
+        }
+        .wrap img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .glass{
+            background-color: rgba(255, 0, 0, 0);
+            background-repeat: no-repeat;
+            
+            border: 7px solid rgba(240, 240, 240, 0.705);
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            position: absolute;
+            z-index: 999;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wrap">
+            <img src="i.jpg" alt="">
+        </div>
+        <div class="glass"></div>
+    </div>
+</body>
+<script>
+    let container = document.querySelector(".container");
+    let zoom = document.querySelector(".glass");
+    const img = document.querySelector("img");
+
+    container.addEventListener("mousemove",function(e){
+        zoom.style.display="block";
+        let containerRect = container.getBoundingClientRect();
+        let mouseX = e.clientX - containerRect.left;
+        let mouseY = e.clientY - containerRect.top;
+
+        zoom.style.left = `${mouseX}px`;
+        zoom.style.top = `${mouseY}px`;
+        // show image
+         // Calculate background position for zoom effect
+         let bgPosX = (mouseX / containerRect.width) * 200;
+        let bgPosY = (mouseY / containerRect.height) * 200;
+        zoom.style.backgroundPosition = `${bgPosX}% ${bgPosY}%`;
+        zoom.style.backgroundImage = `url(${img.src})`;
+    })
+    container.addEventListener("mouseout",()=>{
+        console.log("out");
+        zoom.style.display="none";
+    })
+    
+
+</script>
+</html>
